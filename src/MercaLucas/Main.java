@@ -1,6 +1,5 @@
 package MercaLucas;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -50,6 +49,7 @@ public class Main {
 
         String[] listaProdutos = new String[3];
         double[] listaPrecos = new double[3];
+        int produtosAdicionados = 0;
 
         for (int i = 0; i < 3; i++) {
             System.out.println("\nDigite o nome do produto: ");
@@ -71,23 +71,37 @@ public class Main {
             else {
                 System.out.println("Produto ou preço incorreto.");
                 i--;
-                return;
+                continue;
             }
+
+            produtosAdicionados++;
 
             System.out.println("Você deseja continuar comprando os produtos? (digite sim ou não): ");
             String escolha = input.nextLine().toLowerCase();
 
-            System.out.println("Produtos adicionados: ");
-
             if (escolha.equals("nao") || escolha.equals("n") || escolha.equals("não")) {
-                for (int j = 0; j < listaProdutos.length; j++) {
+                System.out.println("Produtos adicionados: ");
+                for (int j = 0; j < produtosAdicionados; j++) {
                     System.out.printf("- " + listaProdutos[j] + ": R$ " + listaPrecos[j] + "\n");
-
-                    System.out.println("Você tem um desconto de 10% para aplicar em um produto 🥳 Aplique o desconto em um produto, por favor: \n" + listaProdutos[j]);
-                    break;
                 }
+
+                System.out.println("Você tem um desconto de 40% para aplicar em um produto 🥳");
+                System.out.println("Digite o nome do produto para aplicar o desconto: ");
+                String desconto = input.nextLine().toLowerCase().trim();
+
+                for (int k = 0; k < listaProdutos.length; k++) {
+                    if (listaProdutos[k].equals(desconto)) {
+                        double valorDesconto = listaPrecos[k] * 0.4;
+                        double valorTotal = listaPrecos[k] - valorDesconto;
+
+                        System.out.println(String.format("O valor total do produto é de: R$ %.2f", valorTotal));
+                        System.out.println("Muito obrigado por comprar na MercaLucas!");
+
+                        break;
+                    }
+                }
+                break;
             }
-            break;
         }
     }
 }
