@@ -16,12 +16,9 @@ public class Produtos {
     }
 
     //Método que aplica o desconto nos produtos
-    public void aplicarDesconto() {
-        double desconto = preco * 0.10;
+    public double aplicarDesconto() {
+        double desconto = preco * 0.50;
 
-        double precoDesconto = preco - desconto;
-
-        System.out.println(String.format("Desconto de 10%% no produto %s: R$ %.2f", nome, desconto));
-        System.out.println(String.format("Preço atual com desconto: R$ %.2f", precoDesconto));
+        return preco - desconto;
     }
 }

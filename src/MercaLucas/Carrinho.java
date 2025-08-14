@@ -13,10 +13,29 @@ public class Carrinho {
         quantidades.add(quantidade);
     }
 
+    public void aplicarDesconto(String nomeProduto) {
+        boolean produtoEncontrado = false;
+
+        for (int i = 0; i < produtos.size(); i++) {
+            Produtos prod = produtos.get(i);
+
+            if (prod.nome.equalsIgnoreCase(nomeProduto)) {
+                double precoDesconto = prod.aplicarDesconto() * quantidades.get(i);
+
+                System.out.println("Preço total com desconto: " + prod.nome + " R$ " + String.format("%2.2f", precoDesconto));
+
+                produtoEncontrado = true;
+
+                break;
+            }
+        }
+        if (!produtoEncontrado) {
+            System.out.println("Produto não encontrado.");
+        }
+    }
+
     //Método de mostrar o resumo das compras
     public void mostrarResumo() {
-        System.out.println("Resumo da compra: ");
-
         double totalCompra = 0;
 
         //Laço for que calcula o subtotal da compra e acumula no total da compra
@@ -26,10 +45,10 @@ public class Carrinho {
 
             double subtotal = prod.preco * quant;
 
-            System.out.println("Produto: " + prod.nome + " | Preço: " + prod.preco + " | Quantidade: " + quant + " | Subtotal: " + subtotal);
+            System.out.println(prod.nome + " | Preço: " + prod.preco + " | Quantidade: " + quant + " | Subtotal: " + subtotal);
 
             totalCompra += subtotal;
         }
-        System.out.println("Total da compra: " + totalCompra);
+        System.out.println("Total da compra: R$" + totalCompra);
     }
 }

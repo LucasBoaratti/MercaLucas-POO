@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner input = new Scanner(System.in); //Scanner com a entrada de dados
 
         //Mensagem de boas vindas
         System.out.println("Olá, seja bem vindo(a) ao MercaLucas! Para começar, digite suas informações para entrar no Mercadinho :D");
@@ -50,68 +50,67 @@ public class Main {
         produto2.exibirInfo();
         produto3.exibirInfo();
 
-        String[] listaProdutos = new String[3];
-        double[] listaPrecos = new double[3];
+        //Objeto carrinho que guarda os produtos que o usuário vai escolher
+        Carrinho carrinho = new Carrinho();
+        //Variável que vai contar quantos produtos foram adicionados
         int produtosAdicionados = 0;
 
         //Laço for para percorrer os produtos escolhidos pelo usuário
         for (int i = 0; i < 3; i++) {
             System.out.println("\nDigite o nome do produto: ");
-            listaProdutos[i] = input.nextLine().toLowerCase();
+            String nomeProduto = input.nextLine().toLowerCase();
 
             System.out.println("\nDigite o preço do produto: ");
-            listaPrecos[i] = input.nextDouble();
+            double precoProduto = input.nextDouble();
             input.nextLine();
 
-            //Validações dos produtos e seus preços
-            if (listaProdutos[i].equals("chocolate") && listaPrecos[i] == 9.99) {
-                System.out.println("Produto e preço adicionado.\n");
+            System.out.println("\nDigite a quantidade do produto: ");
+            int quantidadeProduto = input.nextInt();
+            input.nextLine();
+
+            //Validações dos produtos, seus preços e suas quantidades
+            if (nomeProduto.equals("chocolate") && precoProduto == 9.99) {
+                System.out.println("Produto, preço e quantidade adicionados.\n");
             }
-            else if (listaProdutos[i].equals("doritos") && listaPrecos[i] == 15.99) {
-                System.out.println("Produto e preço adicionado.\n");
+            else if (nomeProduto.equals("doritos") && precoProduto == 15.99) {
+                System.out.println("Produto, preço e quantidade adicionados.\n");
             }
-            else if (listaProdutos[i].equals("laranja") && listaPrecos[i] == 19.99) {
-                System.out.println("Produto e preço adicionado.\n");
+            else if (nomeProduto.equals("laranja") && precoProduto == 19.99) {
+                System.out.println("Produto, preço e quantidade adicionados.\n");
             }
             else {
                 System.out.println("Produto ou preço incorreto.");
                 i--;
-                continue;
+                continue; //Repete a iteração para o usuário corrigir
             }
+
+            //Criando um objeto produtos e adiciona no carrinho com a quantidade
+            Produtos produtos = new Produtos(nomeProduto, precoProduto);
+            carrinho.adicionarProduto(produtos, quantidadeProduto);
+
+            //Mostrando os produtos adicionados
+            System.out.println("Produtos adicionados: ");
+            carrinho.mostrarResumo();
 
             produtosAdicionados++;
 
-            System.out.println("Você deseja continuar comprando os produtos? (digite sim ou não): ");
+            System.out.println("\nVocê deseja continuar comprando os produtos? (digite sim ou não): ");
             String escolha = input.nextLine().toLowerCase();
 
             //Verificando se o usuário não quer continuar comprando
             if (escolha.equals("nao") || escolha.equals("n") || escolha.equals("não")) {
-                System.out.println("Produtos adicionados: ");
-                //Exibindo os produtos comprados
-                for (int j = 0; j < produtosAdicionados; j++) {
-                    System.out.printf("- " + listaProdutos[j] + ": R$ " + listaPrecos[j] + "\n");
-                }
-
-                System.out.println("Você tem um desconto de 40% para aplicar em um produto 🥳");
+                System.out.println("\nVocê tem um desconto de 50% para aplicar em um produto 🥳");
                 System.out.println("Digite o nome do produto para aplicar o desconto: ");
                 String desconto = input.nextLine().toLowerCase().trim();
 
-                //Laço for para percorrer o item escolhido pelo usuário para aplicar o desconto
-                for (int k = 0; k < listaProdutos.length; k++) {
-                    //Aplicando o desconto
-                    if (listaProdutos[k].equals(desconto)) {
-                        double valorDesconto = listaPrecos[k] * 0.4;
-                        double valorTotal = listaPrecos[k] - valorDesconto;
+                //Aplicando o desconto
+                carrinho.aplicarDesconto(desconto);
 
-                        System.out.println(String.format("O valor total do produto é de: R$ %.2f", valorTotal));
-                        System.out.println("Muito obrigado por comprar na MercaLucas!");
+                System.out.println("Muito obrigado por comprar na MercaLucas!");
 
-                        break;
-                    }
-                }
                 break;
             }
         }
-        input.close();
+        input.close(); //Fechando o scanner de entrada de dados
     }
 }
